@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha de Estudos para Desenvolvedor .NET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1d23 50%, #0f0f1e 100%);
+            color: #e8eaed;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            background: linear-gradient(135deg, rgba(26, 29, 35, 0.95) 0%, rgba(15, 15, 30, 0.95) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 217, 255, 0.03) 25%, rgba(0, 217, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 217, 255, 0.03) 75%, rgba(0, 217, 255, 0.03) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 217, 255, 0.03) 25%, rgba(0, 217, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 217, 255, 0.03) 75%, rgba(0, 217, 255, 0.03) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Slide 1 - Intro */
+        .slide-intro {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-intro .content {
+            max-width: 900px;
+        }
+
+        .slide-intro .title {
+            font-size: 72px;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .slide-intro .subtitle {
+            font-size: 72px;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .slide-intro .description {
+            font-size: 24px;
+            color: #a0a3ad;
+            line-height: 1.8;
+            letter-spacing: 1px;
+        }
+
+        /* Slide Content Styles */
+        .slide-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #00d9ff;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+            letter-spacing: 1px;
+            border-bottom: 2px solid #00d9ff;
+            padding-bottom: 20px;
+        }
+
+        .slide-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .slide-grid.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .content-block {
+            padding: 25px;
+            border-left: 4px solid #00ff88;
+            background-color: rgba(0, 255, 136, 0.03);
+            border-radius: 4px;
+        }
+
+        .content-block.accent-pink {
+            border-left-color: #ff6b9d;
+            background-color: rgba(255, 107, 157, 0.03);
+        }
+
+        .content-block.accent-cyan {
+            border-left-color: #00d9ff;
+            background-color: rgba(0, 217, 255, 0.03);
+        }
+
+        .block-title {
+            font-size: 18px;
+            color: #00ff88;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-block.accent-pink .block-title {
+            color: #ff6b9d;
+        }
+
+        .content-block.accent-cyan .block-title {
+            color: #00d9ff;
+        }
+
+        .item {
+            font-size: 15px;
+            color: #e8eaed;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .item::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: 700;
+        }
+
+        .content-block.accent-pink .item::before {
+            color: #ff6b9d;
+        }
+
+        .content-block.accent-cyan .item::before {
+            color: #00d9ff;
+        }
+
+        .resource-item {
+            margin-bottom: 15px;
+        }
+
+        .resource-name {
+            font-size: 14px;
+            color: #e8eaed;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .resource-link {
+            font-size: 12px;
+            color: #00ff88;
+            text-decoration: none;
+            word-break: break-all;
+            display: block;
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .resource-link:hover {
+            color: #00d9ff;
+            text-decoration: underline;
+        }
+
+        .content-block.accent-pink .resource-link {
+            color: #ff6b9d;
+        }
+
+        .content-block.accent-pink .resource-link:hover {
+            color: #ff88b8;
+        }
+
+        .resource-note {
+            font-size: 11px;
+            color: #a0a3ad;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            background: rgba(26, 29, 35, 0.8);
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            border: 1px solid #00d9ff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #00d9ff;
+            color: #1a1d23;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            font-size: 16px;
+            color: #a0a3ad;
+            background: rgba(26, 29, 35, 0.8);
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88 0%, #00d9ff 50%, #ff6b9d 100%);
+            transition: width 0.3s ease;
+            z-index: 50;
+        }
+
+        /* Fullscreen */
+        .fullscreen-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 10px 15px;
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            border: 1px solid #00d9ff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-btn:hover {
+            background: #00d9ff;
+            color: #1a1d23;
+        }
+
+        /* Keyboard hint */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #a0a3ad;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 40px;
+            }
+
+            .slide-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-grid.three-col {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .slide-title {
+                font-size: 36px;
+            }
+
+            .slide-intro .title,
+            .slide-intro .subtitle {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px;
+            }
+
+            .slide-grid.three-col {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-title {
+                font-size: 28px;
+            }
+
+            .slide-intro .title,
+            .slide-intro .subtitle {
+                font-size: 36px;
+            }
+
+            .slide-intro .description {
+                font-size: 18px;
+            }
+
+            .controls {
+                bottom: 20px;
+                padding: 12px 20px;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .slide-counter {
+                top: 20px;
+                right: 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Intro -->
+        <div class="slide slide-intro active" data-slide="1">
+            <div class="slide-content">
+                <div class="content">
+                    <div class="title">Trilha de Estudos</div>
+                    <div class="subtitle">para Desenvolvedor .NET</div>
+                    <div class="description">Backend • Frontend • Arquitetura • Boas Práticas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Backend Intro -->
+        <div class="slide" data-slide="2">
+            <div class="slide-content">
+                <div class="slide-title">Backend - Fundações</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Linguagem & Framework</div>
+                        <div class="item">C# - Linguagem moderna</div>
+                        <div class="item">.NET Core - Multiplataforma</div>
+                        <div class="item">ASP.NET Core - Web framework</div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Dados & Persistência</div>
+                        <div class="item">SQL Server - Relacional</div>
+                        <div class="item">Entity Framework Core - ORM</div>
+                        <div class="item">Dapper - Micro-ORM</div>
+                    </div>
+                    <div class="content-block accent-cyan" style="grid-column: 1 / -1;">
+                        <div class="block-title">Arquitetura & Padrões</div>
+                        <div class="item">APIs RESTful</div>
+                        <div class="item">RabbitMQ - Mensageria</div>
+                        <div class="item">Azure Functions - Serverless</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: C# / .NET Core -->
+        <div class="slide" data-slide="3">
+            <div class="slide-content">
+                <div class="slide-title">C# / .NET Core</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Fundamentos</div>
+                        <div class="resource-item">
+                            <div class="resource-name">C# Programming Guide</div>
+                            <a href="https://learn.microsoft.com/en-us/dotnet/csharp/" class="resource-link">learn.microsoft.com/csharp</a>
+                            <div class="resource-note">Documentação oficial</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">C# Tutorial</div>
+                            <a href="https://www.w3schools.com/cs/" class="resource-link">w3schools.com/cs</a>
+                            <div class="resource-note">Básico ao avançado</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">.NET Core</div>
+                        <div class="resource-item">
+                            <div class="resource-name">.NET Documentation</div>
+                            <a href="https://learn.microsoft.com/en-us/dotnet/" class="resource-link">learn.microsoft.com/dotnet</a>
+                            <div class="resource-note">Guia completo</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">.NET Tutorials</div>
+                            <a href="https://www.freecodecamp.org/news/tag/dotnet/" class="resource-link">freecodecamp.org/dotnet</a>
+                            <div class="resource-note">Vídeos e artigos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Best Practices -->
+        <div class="slide" data-slide="4">
+            <div class="slide-content">
+                <div class="slide-title">Boas Práticas de Desenvolvimento</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">SOLID Principles</div>
+                        <div class="resource-item">
+                            <div class="resource-name">SOLID em C#</div>
+                            <a href="https://dotnettutorials.net/lesson/solid-principles/" class="resource-link">dotnettutorials.net/solid</a>
+                            <div class="resource-note">Guia prático</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Domain-Driven Design</div>
+                        <div class="resource-item">
+                            <div class="resource-name">DDD - Microsoft Learn</div>
+                            <a href="https://learn.microsoft.com/en-us/dotnet/architecture/ddd/" class="resource-link">learn.microsoft.com/ddd</a>
+                            <div class="resource-note">Arquitetura moderna</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-cyan" style="grid-column: 1 / -1;">
+                        <div class="block-title">Clean Architecture</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Clean Architecture</div>
+                            <a href="https://learn.microsoft.com/en-us/dotnet/architecture/clean-code/" class="resource-link">learn.microsoft.com/clean-code</a>
+                            <div class="resource-note">Estrutura escalável</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: SQL Server -->
+        <div class="slide" data-slide="5">
+            <div class="slide-content">
+                <div class="slide-title">SQL Server / T-SQL</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Fundamentos SQL</div>
+                        <div class="resource-item">
+                            <div class="resource-name">SQL Tutorial</div>
+                            <a href="https://www.w3schools.com/sql/" class="resource-link">w3schools.com/sql</a>
+                            <div class="resource-note">Básico ao avançado</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">T-SQL Guide</div>
+                            <a href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference" class="resource-link">learn.microsoft.com/t-sql</a>
+                            <div class="resource-note">Referência oficial</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Prática & Recursos</div>
+                        <div class="resource-item">
+                            <div class="resource-name">SQL Course</div>
+                            <a href="https://www.sqlcourse.com/" class="resource-link">sqlcourse.com</a>
+                            <div class="resource-note">Prática interativa</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">SQL Server Tutorials</div>
+                            <a href="https://www.sqlservertutorial.net/" class="resource-link">sqlservertutorial.net</a>
+                            <div class="resource-note">Exemplos práticos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Entity Framework -->
+        <div class="slide" data-slide="6">
+            <div class="slide-content">
+                <div class="slide-title">Entity Framework Core</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Fundamentos & Getting Started</div>
+                        <div class="resource-item">
+                            <div class="resource-name">EF Core - Microsoft Learn</div>
+                            <a href="https://learn.microsoft.com/en-us/ef/core/" class="resource-link">learn.microsoft.com/ef/core</a>
+                            <div class="resource-note">Documentação oficial</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">EF Core Tutorial</div>
+                            <a href="https://www.entityframeworktutorial.net/efcore/entity-framework-core.aspx" class="resource-link">entityframeworktutorial.net</a>
+                            <div class="resource-note">DB-First, Code-First</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">CRUD & Migrations</div>
+                        <div class="resource-item">
+                            <div class="resource-name">CRUD com EF Core</div>
+                            <a href="https://dotnettutorials.net/lesson/crud-operations-in-entity-framework-core/" class="resource-link">dotnettutorials.net/crud-ef</a>
+                            <div class="resource-note">Create, Read, Update, Delete</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">EF Core em ASP.NET MVC</div>
+                            <a href="https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-9.0" class="resource-link">learn.microsoft.com/aspnet/mvc</a>
+                            <div class="resource-note">Integração com Web APIs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Dapper -->
+        <div class="slide" data-slide="7">
+            <div class="slide-content">
+                <div class="slide-title">Dapper (Micro-ORM)</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Uso Prático com .NET Core</div>
+                        <div class="resource-item">
+                            <div class="resource-name">CRUD com Dapper + SQL Server</div>
+                            <a href="https://jasonwatmore.com/net-7-dapper-ms-sql-server-crud-api-tutorial-in-aspnet-core" class="resource-link">jasonwatmore.com/dapper</a>
+                            <div class="resource-note">Tutorial completo</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Boas Práticas & Otimização</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Comparativos e Dicas</div>
+                            <a href="https://github.com/thangchung/awesome-dotnet-core-education" class="resource-link">github.com/thangchung</a>
+                            <div class="resource-note">Repositório com artigos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: RabbitMQ -->
+        <div class="slide" data-slide="8">
+            <div class="slide-content">
+                <div class="slide-title">RabbitMQ / Mensageria</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Tutoriais Oficiais</div>
+                        <div class="resource-item">
+                            <div class="resource-name">RabbitMQ Tutorials</div>
+                            <a href="https://www.rabbitmq.com/tutorials" class="resource-link">rabbitmq.com/tutorials</a>
+                            <div class="resource-note">Do básico ao avançado</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Microserviços com .NET</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Build Microservices</div>
+                            <a href="https://medium.com/@boucekdev/build-microservices-with-net-core-and-rabbitmq-step-by-step-bfbc30c73304" class="resource-link">medium.com/@boucekdev</a>
+                            <div class="resource-note">Exemplo prático</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-cyan" style="grid-column: 1 / -1;">
+                        <div class="block-title">Boas Práticas de Integração</div>
+                        <div class="resource-item">
+                            <div class="resource-name">MassTransit & RabbitMQ</div>
+                            <a href="https://masstransit.io/" class="resource-link">masstransit.io</a>
+                            <div class="resource-note">Distributed application framework</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: API REST -->
+        <div class="slide" data-slide="9">
+            <div class="slide-content">
+                <div class="slide-title">API REST / Web API</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">CRUD Básico em API</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Todo API Handbook</div>
+                            <a href="https://www.freecodecamp.org/news/build-crud-operations-with-dotnet-core-handbook/" class="resource-link">freecodecamp.org/news</a>
+                            <div class="resource-note">Estrutura da camada de API</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">ASP.NET Core Fundamentals</div>
+                            <a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/" class="resource-link">learn.microsoft.com/aspnet</a>
+                            <div class="resource-note">Conceitos fundamentais</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Estruturação & Convenções</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Exemplos e Tutoriais .NET</div>
+                            <a href="https://learn.microsoft.com/pt-br/dotnet/samples-and-tutorials/" class="resource-link">learn.microsoft.com/dotnet</a>
+                            <div class="resource-note">Controllers, middlewares</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">ASP.NET Core Web API</div>
+                            <a href="https://learn.microsoft.com/en-us/aspnet/core/web-api/" class="resource-link">learn.microsoft.com/web-api</a>
+                            <div class="resource-note">Guia completo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Azure Functions -->
+        <div class="slide" data-slide="10">
+            <div class="slide-content">
+                <div class="slide-title">Azure Functions</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Getting Started</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Azure Functions Overview</div>
+                            <a href="https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview" class="resource-link">learn.microsoft.com/azure/functions</a>
+                            <div class="resource-note">Serverless computing</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">Getting Started</div>
+                            <a href="https://learn.microsoft.com/en-us/azure/azure-functions/functions-get-started" class="resource-link">learn.microsoft.com/get-started</a>
+                            <div class="resource-note">Primeiros passos</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">C# & .NET Integration</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Create C# Function</div>
+                            <a href="https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-your-first-function-visual-studio" class="resource-link">learn.microsoft.com/create-function</a>
+                            <div class="resource-note">Com Visual Studio</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">.NET Isolated Worker</div>
+                            <a href="https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide" class="resource-link">learn.microsoft.com/isolated-worker</a>
+                            <div class="resource-note">Modelo moderno</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-cyan" style="grid-column: 1 / -1;">
+                        <div class="block-title">Exemplos & Boas Práticas</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Order Processing Example</div>
+                            <a href="https://dotnetfullstackdev.medium.com/azure-functions-in-net-c-order-processing-example-15193d19eb31" class="resource-link">medium.com/@dotnetfullstackdev</a>
+                            <div class="resource-note">Exemplo prático</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Frontend Intro -->
+        <div class="slide" data-slide="11">
+            <div class="slide-content">
+                <div class="slide-title">Frontend - Fundações</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Fundamentos Web</div>
+                        <div class="resource-item">
+                            <div class="resource-name">HTML5</div>
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" class="resource-link">developer.mozilla.org/html</a>
+                            <div class="resource-note">Estrutura semântica</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">CSS3</div>
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" class="resource-link">developer.mozilla.org/css</a>
+                            <div class="resource-note">Estilização moderna</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">JavaScript</div>
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" class="resource-link">developer.mozilla.org/js</a>
+                            <div class="resource-note">Lógica e interatividade</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Frameworks & Libs</div>
+                        <div class="resource-item">
+                            <div class="resource-name">React</div>
+                            <a href="https://react.dev/" class="resource-link">react.dev</a>
+                            <div class="resource-note">UIs dinâmicas</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">React Hooks</div>
+                            <a href="https://react.dev/reference/react/hooks" class="resource-link">react.dev/hooks</a>
+                            <div class="resource-note">Estado e efeitos</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">Componentes React</div>
+                            <a href="https://react.dev/learn/your-first-component" class="resource-link">react.dev/components</a>
+                            <div class="resource-note">Reutilizáveis</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-cyan" style="grid-column: 1 / -1;">
+                        <div class="block-title">Integração & Ferramentas</div>
+                        <div class="resource-item">
+                            <div class="resource-name">APIs REST</div>
+                            <a href="https://restfulapi.net/" class="resource-link">restfulapi.net</a>
+                            <div class="resource-note">Comunicação com Backend</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">Git</div>
+                            <a href="https://git-scm.com/book/en/v2" class="resource-link">git-scm.com/book</a>
+                            <div class="resource-note">Controle de versão</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">NextJs</div>
+                            <a href="https://nextjs.org/" class="resource-link">nextjs.org</a>
+                            <div class="resource-note">Full-stack framework</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">Tailwind CSS</div>
+                            <a href="https://tailwindcss.com/" class="resource-link">tailwindcss.com</a>
+                            <div class="resource-note">Utility-first CSS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: React -->
+        <div class="slide" data-slide="12">
+            <div class="slide-content">
+                <div class="slide-title">React</div>
+                <div class="slide-grid three-col">
+                    <div class="content-block">
+                        <div class="block-title">Documentação</div>
+                        <div class="resource-item">
+                            <div class="resource-name">React Learn</div>
+                            <a href="https://react.dev/learn" class="resource-link">react.dev/learn</a>
+                            <div class="resource-note">Oficial</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">React Official</div>
+                            <a href="https://react.dev/" class="resource-link">react.dev</a>
+                            <div class="resource-note">Completa</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Tutoriais</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Scrimba React</div>
+                            <a href="https://scrimba.com/learn/react" class="resource-link">scrimba.com/react</a>
+                            <div class="resource-note">Interativo</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">Learn React 2024</div>
+                            <a href="https://www.freecodecamp.org/news/how-to-learn-react-in-2024/" class="resource-link">freecodecamp.org</a>
+                            <div class="resource-note">Guia</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-cyan">
+                        <div class="block-title">Frameworks & Estilos</div>
+                        <div class="resource-item">
+                            <div class="resource-name">NextJs Official</div>
+                            <a href="https://nextjs.org/" class="resource-link">nextjs.org</a>
+                            <div class="resource-note">Full-stack React</div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-name">Tailwind CSS</div>
+                            <a href="https://tailwindcss.com/" class="resource-link">tailwindcss.com</a>
+                            <div class="resource-note">Utility-first CSS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Git -->
+        <div class="slide" data-slide="13">
+            <div class="slide-content">
+                <div class="slide-title">Git / Controle de Versão</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Guia Completo</div>
+                        <div class="resource-item">
+                            <div class="resource-name">Pro Git Book</div>
+                            <a href="https://git-scm.com/book/en/v2" class="resource-link">git-scm.com/book</a>
+                            <div class="resource-note">Recurso fundamental</div>
+                        </div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Aprendizado Interativo</div>
+                        <div class="resource-item">
+                            <div class="resource-name">GitHub Learning Lab</div>
+                            <a href="https://lab.github.com/" class="resource-link">lab.github.com</a>
+                            <div class="resource-note">Cursos práticos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Roadmap -->
+        <div class="slide" data-slide="14">
+            <div class="slide-content">
+                <div class="slide-title">Mapa da Jornada</div>
+                <div class="slide-grid">
+                    <div class="content-block">
+                        <div class="block-title">Backend Stack</div>
+                        <div class="item">C# / .NET → SQL Server → EF Core / Dapper → APIs & Azure</div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Frontend Stack</div>
+                        <div class="item">HTML/CSS/JS → React → Componentes → Git & Deploy</div>
+                    </div>
+                    <div class="content-block accent-cyan" style="grid-column: 1 / -1;">
+                        <div class="block-title">Marcos Importantes</div>
+                        <div class="item">✓ Dominar C# e .NET Core</div>
+                        <div class="item">✓ Consultas SQL complexas</div>
+                        <div class="item">✓ APIs RESTful</div>
+                        <div class="item">✓ Componentes React funcionais</div>
+                        <div class="item">✓ Projeto completo no portfólio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Conclusion -->
+        <div class="slide" data-slide="15">
+            <div class="slide-content">
+                <div class="slide-title">Próximos Passos</div>
+                <div class="slide-grid three-col">
+                    <div class="content-block">
+                        <div class="block-title">Mantenha Progresso</div>
+                        <div class="item">Checkpoints semanais</div>
+                        <div class="item">Pratique regularmente</div>
+                        <div class="item">Revise conceitos</div>
+                        <div class="item">Portfólio de projetos</div>
+                    </div>
+                    <div class="content-block accent-pink">
+                        <div class="block-title">Próximas Etapas</div>
+                        <div class="item">Projetos Backend+Frontend</div>
+                        <div class="item">Comunidades dev</div>
+                        <div class="item">Open source no GitHub</div>
+                        <div class="item">Busque mentoria</div>
+                    </div>
+                    <div class="content-block accent-cyan">
+                        <div class="block-title">Recursos Adicionais</div>
+                        <div class="item">Blogs e podcasts</div>
+                        <div class="item">Conferências e webinars</div>
+                        <div class="item">Certificações Microsoft</div>
+                        <div class="item">Tendências do mercado</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="slide-counter" id="slideCounter">1 / 15</div>
+    <div class="keyboard-hint">Use ← → ou clique nos botões para navegar | F para tela cheia</div>
+    <div class="controls">
+        <button class="btn" id="prevBtn" onclick="previousSlide()">← Anterior</button>
+        <button class="btn" id="nextBtn" onclick="nextSlide()">Próximo →</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('slideCounter').textContent = `${currentSlide} / ${totalSlides}`;
+            
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+        });
+
+        // Fullscreen
+        function toggleFullscreen() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
